@@ -1,8 +1,35 @@
-.home-layout{display:flex;gap:20px;align-items:flex-start;padding:20px}
-.home-main{flex:1;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
-.home-side{width:340px}
+.page-root{
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 28px;
+}
 
-@media (max-width:900px){
-  .home-layout{flex-direction:column}
-  .home-side{width:100%}
+.page-sidebar{
+  width: 300px;
+  flex: 0 0 300px;
+}
+
+/* make the sidebar fill the viewport and stay visible */
+.page-root{min-height:100vh}
+.page-sidebar{position:sticky;top:28px;height:calc(100vh - 56px)}
+
+.page-content{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.content-grid{
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width:1000px){
+  .content-grid{grid-template-columns: 1fr}
+  .page-sidebar{width:100%;flex:unset}
+  .page-root{flex-direction:column}
 }

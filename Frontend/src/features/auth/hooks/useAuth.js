@@ -38,7 +38,8 @@ export const useAuth=()=>{
               setLoading(true)
             try {
 
-                const data=await getMe()
+
+                const data = await getMe()
                 setUser(data.user)
 
             } catch (err) {
@@ -62,9 +63,7 @@ export const useAuth=()=>{
             }
     }
 
-    useEffect(()=>{
-        handleGetMe()
-    },[])
+
 
     return ({
         user,loading,handleLogin,handleRegister,handleGetMe,handleLogout

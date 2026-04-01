@@ -1,20 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import {init,detect} from '../utils/utils.js'
+import './face-expression.scss'
 
 export default function FaceExpression({onclick=()=>{ }}) {
   const videoRef = useRef(null);
   const landmarkerRef = useRef(null);
-const streamRef=useRef(null)
+  const streamRef=useRef(null)
   const [expression, setExpression] = useState("Detecting...");
 
   async function handleClick(){
     const expression= detect({landmarkerRef,setExpression,videoRef})
     onclick(expression)
-
   }
 
   useEffect(() => {
-  
     init({landmarkerRef,streamRef,videoRef,setExpression});
 
     return () => {
@@ -27,16 +26,19 @@ const streamRef=useRef(null)
     };
   }, []);
 
-
   return (
-    <div style={{ textAlign: "center" }}>
-      <video
-        ref={videoRef}
-        style={{ width: "400px", borderRadius: "12px" }}
-        playsInline
-      />
-      <h2>{expression}</h2>
-      <button onClick={handleClick}>Detect Expression</button>
+    <div className="expression-card card">
+      <div className="expression-content">
+        <video
+          ref={videoRef}
+          className="expression-video"
+          playsInline
+        />
+        <div className="expression-actions">
+          <h2 className="expression-title">{expression}</h2>
+          <button className="expression-btn" onClick={handleClick}>Detect Mood</button>
+        </div>
+      </div>
     </div>
   );
 }

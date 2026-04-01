@@ -1,0 +1,14 @@
+.theme-toggle {
+  padding: 12px 16px;
+
+  &__btn {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    font-weight: 600;
+  }
+}
