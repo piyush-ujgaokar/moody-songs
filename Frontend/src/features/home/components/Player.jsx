@@ -14,6 +14,7 @@ const formatTime = (seconds) => {
 
 const Player = () => {
     const { song } = useSong()
+    const { registerPlayer, setSong } = useContext(SongContext)
 
     const audioRef = useRef(null)
     const progressRef = useRef(null)
@@ -30,10 +31,32 @@ const Player = () => {
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.load()
-            setIsPlaying(false)
             setCurrentTime(0)
+            const playPromise = audioRef.current.play()
+            if (playPromise && typeof playPromise.then === 'function') {
+                playPromise.then(() => setIsPlaying(true)).catch(() => setIsPlaying(false))
+            } else {
+                setIsPlaying(true)
+            }
         }
     }, [song?.url])
+
+    // register play API so playlist clicks can directly play (keeps user gesture)
+    useEffect(() => {
+        if (typeof registerPlayer === 'function') {
+            registerPlayer({
+                play: (s) => {
+                    setSong(s)
+                    if (!audioRef.current) return
+                    audioRef.current.src = s.url
+                    audioRef.current.load()
+                    const p = audioRef.current.play()
+                    if (p && typeof p.then === 'function') p.then(() => setIsPlaying(true)).catch(() => setIsPlaying(false))
+                    else setIsPlaying(true)
+                }
+            })
+        }
+    }, [registerPlayer, setSong])
 
     const togglePlay = () => {
         const audio = audioRef.current

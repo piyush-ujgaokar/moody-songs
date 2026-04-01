@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { createContext } from "react";
 
 
@@ -12,10 +12,19 @@ export const SongContextProvider=({children})=>{
             "mood": "sad"
         })
 
+    const [playlist, setPlaylist] = useState([])
     const [loading, setLoading] = useState(false)
+    const playerRef = useRef(null)
+
+    function registerPlayer(api){
+        playerRef.current = api
+    }
+    function getPlayer(){
+        return playerRef.current
+    }
 
     return (
-        <SongContext.Provider value={{song,setSong,loading,setLoading}}>
+        <SongContext.Provider value={{song,setSong,playlist,setPlaylist,loading,setLoading,registerPlayer,getPlayer}}>
             {children}
         </SongContext.Provider>
     )

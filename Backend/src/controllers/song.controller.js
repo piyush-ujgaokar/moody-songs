@@ -39,13 +39,11 @@ const [songs, poster] = await Promise.all([
 async function getSongs(req,res){
     const {mood}=req.query
 
-    const song=await songModel.findOne({
-        mood
-    })
+    const songs = await songModel.find({ mood })
 
     res.status(200).json({
-        message:"Songs fetched Successfully !",
-        song
+        message: "Songs fetched Successfully !",
+        songs
     })
 }
 

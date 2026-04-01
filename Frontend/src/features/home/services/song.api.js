@@ -14,3 +14,8 @@ export async function getSong({mood}){
 
     return response.data
 }
+
+export async function getSongs({mood}){
+    const response = await api.get('/api/songs?mood='+mood)
+    return response.data
+}

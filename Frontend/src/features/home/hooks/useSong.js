@@ -1,20 +1,22 @@
 import React from 'react'
 import { useContext } from 'react'
 import { SongContext } from '../song.context'
-import { getSong } from '../services/song.api'
+import { getSong, getSongs } from '../services/song.api'
 
 export const useSong = () => {
 
     const context=useContext(SongContext)
 
-    const {song,setSong,loading,setLoading}=context
+    const {song,setSong,playlist,setPlaylist,loading,setLoading,registerPlayer,getPlayer}=context
 
-     async function handleGetSong({mood}){
+     async function handleGetSongs({mood}){
         setLoading(true)
         try {
-            const data=await getSong({mood})
-            console.log(data)
-            setSong(data.song)
+            const data=await getSongs({mood})
+            // expect data.songs to be an array from backend
+            const songs = data.songs || (data.song? [data.song]: [])
+            setPlaylist(songs)
+            if(songs.length>0) setSong(songs[0])
         } catch (error) {
             throw Error(error)
         }finally{
@@ -22,7 +24,11 @@ export const useSong = () => {
         }
     }
 
-  return({song,loading,handleGetSong})
+    function selectSong(selected){
+      setSong(selected)
+    }
+
+  return({song,playlist,loading,handleGetSongs,selectSong,activeSong:song,registerPlayer,getPlayer})
 }
 
 export default useSong
