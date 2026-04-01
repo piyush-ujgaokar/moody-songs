@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-const { createContext } = require("react");
+import { createContext } from "react";
 
 
 export const SongContext=createContext()
