@@ -20,7 +20,7 @@ app.use(cors({
 app.use('/api/auth',authRouter)
 app.use('/api/songs',songRoutes)
 
-app.get('*',(req,res)=>{
+app.get('*name',(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/index.html'))
 });
 
